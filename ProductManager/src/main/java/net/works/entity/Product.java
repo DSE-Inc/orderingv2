@@ -1,4 +1,4 @@
-package net.works;
+package net.works.entity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -34,7 +34,7 @@ public class Product implements Serializable{
 	    
 	    
 	    
-	    protected Product() {
+	    public Product() {
 	    }
 	    @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)

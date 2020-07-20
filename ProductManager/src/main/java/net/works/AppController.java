@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import net.works.entity.Product;
+import net.works.entity.Site;
+
 
 
 @Controller
@@ -22,6 +25,9 @@ public class AppController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	SiteService siteService;
 	
 	@RequestMapping("/")
 	public String viewHomePage(Model model) {
@@ -65,12 +71,11 @@ public class AppController {
 	     
 	    return "redirect:/";
 	}
-	/*
-	 * @RequestMapping("/add/{id}") public String showCartPage(@PathVariable(name =
-	 * "id") int id, Model model) { Order order = new Order(); Order product =
-	 * product.getProductList().getClass(); model.addAttribute("product", product);
-	 * service.get(id); order = ;
-	 * 
-	 * return "add_to_cart"; }
-	 */
+	@RequestMapping("/site")
+	public String showSitePage(Model model) {
+		List<Site> listSite = siteService.listAll();
+		model.addAttribute("listSite", listSite);
+		
+		return "manage_site";
+	}
 }

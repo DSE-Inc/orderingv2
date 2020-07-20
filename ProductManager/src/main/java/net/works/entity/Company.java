@@ -1,4 +1,4 @@
-package net.works;
+package net.works.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

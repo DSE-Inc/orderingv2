@@ -1,4 +1,4 @@
-package net.works;
+package net.works.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;

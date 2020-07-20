@@ -1,4 +1,4 @@
-package net.works;
+package net.works.entity;
 
 import java.io.Serializable;
 import java.util.Set;
