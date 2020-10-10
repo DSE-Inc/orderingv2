@@ -6,6 +6,7 @@ import java.util.Optional;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -46,18 +47,20 @@ public class UserController {
 		userRepository.deleteById(userId);
 		return user;
 	}
-	@PutMapping("/users/{userId}")
-	public User updateUser(@PathVariable("userId") long userId, @RequestBody User userDetails)  {
-		User user = userRepository.getOne(userId);
-				
-		user.setUserName(userDetails.getUserName());
-		user.setUserEmail(userDetails.getUserEmail());
-		user.setUserPassword(userDetails.getUserPassword());
-		user.setUserType(userDetails.getUserType());
-		
-		userRepository.save(user);
-		return user;
-		
-	}
+	@PutMapping("/edit/{userId}")
+	  public ResponseEntity<User> updateTutorial(@PathVariable("userId") long id, @RequestBody User user) {
+	    Optional<User> userData = userRepository.findById(id);
+
+	    if (userData.isPresent()) {
+	      User _user = userData.get();
+	      _user.setUserName(user.getUserName());
+	      _user.setUserEmail(user.getUserEmail());
+	      _user.setUserPassword(user.getUserPassword());
+	      _user.setUserType(user.getUserType());
+	      return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+	    } else {
+	      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    }
+	  }
 	
 }
