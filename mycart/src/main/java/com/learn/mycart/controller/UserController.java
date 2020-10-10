@@ -1,8 +1,12 @@
 package com.learn.mycart.controller;
 
 import java.util.List;
+import java.util.Optional;
+
+
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,11 +46,18 @@ public class UserController {
 		userRepository.deleteById(userId);
 		return user;
 	}
-	@PutMapping(path = {"/{userId}"})
-	public User editUser(@PathVariable("userId") long userId) {
+	@PutMapping("/users/{userId}")
+	public User updateUser(@PathVariable("userId") long userId, @RequestBody User userDetails)  {
 		User user = userRepository.getOne(userId);
+				
+		user.setUserName(userDetails.getUserName());
+		user.setUserEmail(userDetails.getUserEmail());
+		user.setUserPassword(userDetails.getUserPassword());
+		user.setUserType(userDetails.getUserType());
+		
 		userRepository.save(user);
 		return user;
+		
 	}
 	
 }
