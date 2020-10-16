@@ -36,6 +36,16 @@ public class UserController {
 	public List<User> getAllUsers(){
 		return userRepository.findAll();
 	}
+	@GetMapping("/get/{userId}")
+	  public User getUserById(@PathVariable("userId") long id) {
+		User user = userRepository.getOne(id);
+
+		/*
+		 * if (user.isPresent()) { return new ResponseEntity<>(user.get(),
+		 * HttpStatus.OK); } else { return new ResponseEntity<>(HttpStatus.NOT_FOUND); }
+		 */
+		return user;
+	  }
 	
 	@PostMapping("/add")
 	public void createUser(@RequestBody(required = false) User user) {
@@ -49,6 +59,21 @@ public class UserController {
 	}
 	@PutMapping("/edit/{userId}")
 	  public ResponseEntity<User> updateTutorial(@PathVariable("userId") long id, @RequestBody User user) {
+	    Optional<User> userData = userRepository.findById(id);
+
+	    if (userData.isPresent()) {
+	      User _user = userData.get();
+	      _user.setUserName(user.getUserName());
+	      _user.setUserEmail(user.getUserEmail());
+	      _user.setUserPassword(user.getUserPassword());
+	      _user.setUserType(user.getUserType());
+	      return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+	    } else {
+	      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    }
+	  }
+	@PostMapping("/update/{userId}")
+	  public ResponseEntity<User> updateUser(@PathVariable("userId") long id, @RequestBody User user) {
 	    Optional<User> userData = userRepository.findById(id);
 
 	    if (userData.isPresent()) {
